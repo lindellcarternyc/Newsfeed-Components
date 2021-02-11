@@ -1,3 +1,5 @@
+import gsap from 'gsap'
+
 // This is the data we will be using to create our articles. Look at it, then proceed to line 93.
 // OPTIONAL: if you're feeling adventurous, try to make this data an export from a different module, and import it here.
 // You can read about ES6 modules here: https://exploringjs.com/es6/ch_modules.html#sec_basics-of-es6-modules
@@ -134,14 +136,37 @@ function articleMaker({ title, date, firstParagraph, secondParagraph, thirdParag
     return paragraphEl
   })
   article.append(...paragraphEls)
-
   const expandButton = document.createElement('span')
   expandButton.className = 'expandButton'
-  expandButton.textContent = '+'
+  expandButton.textContent = 'Click to Expand'
+
+  const isArticleOpen = () => {
+    return article.classList.contains('article-open')
+  }
+
+  const openArticle = () => {
+    console.log('openArticle')
+    article.classList.add('article-open')
+    gsap.to(article, { height: 'auto' })
+    expandButton.textContent = 'Click to Close'
+  }
+
+  const closeArticle = () => {
+    article.classList.remove('article-open')
+    gsap.to(article, { height: 50 })
+    expandButton.textContent = 'Click to Expand'
+  }
+
   expandButton.addEventListener('click', () => {
-    article.classList.toggle('article-open')
+    if (!isArticleOpen()) {
+      openArticle()
+    } else {
+      closeArticle()
+    }
   })
   article.appendChild(expandButton)
+
+
 
   return article
 }
