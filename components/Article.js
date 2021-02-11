@@ -3,7 +3,7 @@ import gsap from 'gsap'
 // This is the data we will be using to create our articles. Look at it, then proceed to line 93.
 // OPTIONAL: if you're feeling adventurous, try to make this data an export from a different module, and import it here.
 // You can read about ES6 modules here: https://exploringjs.com/es6/ch_modules.html#sec_basics-of-es6-modules
-const data = [
+let data = [
   {
     title: 'Lambda School Students: "We\'re the best!"',
     date: 'Nov 5th, 2018',
@@ -167,6 +167,19 @@ function articleMaker({ title, date, firstParagraph, secondParagraph, thirdParag
   article.appendChild(expandButton)
 
 
+  const readButton = document.createElement('button')
+  readButton.textContent = 'Read'
+  readButton.style.position = 'absolute'
+  readButton.style.top = '5px'
+  readButton.style.right = '5px'
+
+  readButton.addEventListener('click', () => {
+    gsap.to(article, { opacity: 0 }, { duration: '1' })
+      .eventCallback('onComplete', () => {
+        gsap.to(article, { display: 'none' })
+      })
+  })
+  article.appendChild(readButton)
 
   return article
 }
