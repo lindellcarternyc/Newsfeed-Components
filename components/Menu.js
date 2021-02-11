@@ -1,3 +1,4 @@
+import gsap from 'gsap'
 // This is the data we will be using, study it but don't change anything, yet.
 
 let menuItems = [
@@ -46,8 +47,31 @@ function menuMaker(menuItems) {
   })
   ul.append(...liEls)
 
-  document.querySelector('.menu-button').addEventListener('click', () => {
-    menu.classList.toggle('menu--open')
+  const isMenuOpen = () => menu.classList.contains('menu--open')
+
+  const openMenu = () => {
+    menu.classList.add('menu--open')
+    gsap.to(menu, { left: 0 })
+  }
+
+  const closeMenu = () => {
+    menu.classList.remove('menu--open')
+    gsap.to(menu, { left: -350 })
+  }
+
+  document.querySelector('.menu-button').addEventListener('click', evt => {
+    evt.stopPropagation()
+    if (!isMenuOpen()) {
+      openMenu()
+    } else {
+      closeMenu()
+    }
+  })
+
+  document.addEventListener('click', () => {
+    if (isMenuOpen()) {
+      closeMenu()
+    }
   })
 
   return menu
